@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Bars Animation</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #box-container {
+            position: relative;
+            width: 350px;
+            height: 150px;
+            background-color: black;
+            border: 5px solid black;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .color-bar {
+            position: absolute;
+            bottom: 0;
+            width: 70px;
+            height: 150px;
+            background-color: rgb(21, 19, 129);
+            transition: height 0.5s ease-in-out;
+        }
+
+        .color-bar:nth-child(2) {
+            left: 70px;
+            background-color: rgb(141, 23, 123);
+        }
+
+        .color-bar:nth-child(3) {
+            left: 140px;
+            background-color: rgb(149, 88, 42);
+        }
+
+        .color-bar:nth-child(4) {
+            left: 210px;
+            background-color: rgb(183, 130, 69);
+        }
+
+        .color-bar:nth-child(5) {
+            left: 280px;
+            background-color: rgb(177, 167, 52);
+        }
+
+        .button-container{
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            font-size: 16px;
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+        }
+
+        #startButton {
+            background-color: green;
+            color: white;
+        }
+
+        #stopButton {
+            background-color: red;
+            color: white;
+        }
+
+        #resetButton {
+            background-color: purple;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<div id="box-container">
+    <div class="color-bar" id="bar1"></div>
+    <div class="color-bar" id="bar2"></div>
+    <div class="color-bar" id="bar3"></div>
+    <div class="color-bar" id="bar4"></div>
+    <div class="color-bar" id="bar5"></div>
+</div>
+<div class="button-container">
+    <button id="startButton" onclick="startAnimation()">Start</button>
+    <button id="stopButton" onclick="stopAnimation()">Stop</button>
+    <button id="resetButton" onclick="resetBars()">Reset</button>
+</div>
+
+
+<script>
+    let animationIntervals = [];
+
+    function startAnimation() {
+        const bars = document.querySelectorAll('.color-bar');
+        bars.forEach((bar, index) => {
+            const animationInterval = setInterval(() => {
+                const currentHeight = parseInt(getComputedStyle(bar).height);
+                const newHeight = currentHeight === 150 ? 75 : 150;
+                bar.style.height = `${newHeight}px`;
+                bar.style.transform = 'rotate(0deg)';
+            }, Math.random() * 1500 + 500); 
+            animationIntervals.push(animationInterval);
+        });
+    }
+
+    function stopAnimation() {
+        animationIntervals.forEach(interval => clearInterval(interval));
+        animationIntervals = [];
+    }
+
+    function resetBars() {
+        const bars = document.querySelectorAll('.color-bar');
+        bars.forEach((bar) => {
+            bar.style.height = '150px';
+            bar.style.transform = 'rotate(0deg)';
+        });
+        stopAnimation();
+    }
+</script>
+
+</body>
+</html>
